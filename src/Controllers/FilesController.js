@@ -26,7 +26,7 @@ export class FilesController extends AdaptableController {
     }
 
     if (!this.options.preserveFileName) {
-      filename = randomHexString(32) + '_' + filename;
+      filename = randomHexString(32) + path.extname(filename);
     }
 
     const location = this.adapter.getFileLocation(config, filename);
