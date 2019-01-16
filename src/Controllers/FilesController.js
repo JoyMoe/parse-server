@@ -31,9 +31,11 @@ export class FilesController extends AdaptableController {
       filename = encodeURIComponent(filename);
     }
 
-    if (config.filePrefixGenerator &&
-      typeof config.filePrefixGenerator === 'function') {
-        filename = config.filePrefixGenerator() + filename;
+    if (
+      config.filePrefixGenerator &&
+      typeof config.filePrefixGenerator === 'function'
+    ) {
+      filename = config.filePrefixGenerator() + filename;
     }
 
     const location = this.adapter.getFileLocation(config, filename);

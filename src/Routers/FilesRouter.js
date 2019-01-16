@@ -75,17 +75,36 @@ export class FilesRouter {
 
   createHandler(req, res, next) {
     if (req.config.fileCreationPolicy === 'readonly') {
-      next(new Parse.Error(Parse.Error.OPERATION_FORBIDDEN, 'read-only masterKey isn\'t allowed to perform the file create operation.'));
+      next(
+        new Parse.Error(
+          Parse.Error.OPERATION_FORBIDDEN,
+          "read-only masterKey isn't allowed to perform the file create operation."
+        )
+      );
       return;
     }
 
     if (req.config.fileCreationPolicy === 'master' && !req.auth.isMaster) {
-      next(new Parse.Error(Parse.Error.OPERATION_FORBIDDEN, 'Only master is allowed to create new files.'));
+      next(
+        new Parse.Error(
+          Parse.Error.OPERATION_FORBIDDEN,
+          'Only master is allowed to create new files.'
+        )
+      );
       return;
     }
 
-    if (req.config.fileCreationPolicy === 'user' && !req.auth.isMaster && !req.auth.user) {
-      next(new Parse.Error(Parse.Error.OPERATION_FORBIDDEN, 'Only master and registred users aire allowed to create new files.'));
+    if (
+      req.config.fileCreationPolicy === 'user' &&
+      !req.auth.isMaster &&
+      !req.auth.user
+    ) {
+      next(
+        new Parse.Error(
+          Parse.Error.OPERATION_FORBIDDEN,
+          'Only master and registred users aire allowed to create new files.'
+        )
+      );
       return;
     }
 
@@ -99,16 +118,6 @@ export class FilesRouter {
     if (req.params.filename.length > 128) {
       next(
         new Parse.Error(Parse.Error.INVALID_FILE_NAME, 'Filename too long.')
-      );
-      return;
-    }
-
-    if (!req.params.filename.match(/^[_a-zA-Z0-9][a-zA-Z0-9@\.\ ~_-]*$/)) {
-      next(
-        new Parse.Error(
-          Parse.Error.INVALID_FILE_NAME,
-          'Filename contains invalid characters.'
-        )
       );
       return;
     }
